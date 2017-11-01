@@ -89,8 +89,10 @@ var ctx = document.getElementById('heart-back').getContext('2d');
 var colors = ["#EF5350", "#EC407A", "#AB47BC", "#7E57C2", "#5C6BC0", "#42A5F5", "#29B6F6", "#26C6DA", "#26A69A", "#66BB6A", "#9CCC65", "#D4E157", "#FFEE58", "#FFCA28", "#FFA726", "#FF7043", "#8D6E63", "#BDBDBD", "#78909C"];
 var hearts = [];
 window.onload = function () {
+
   StartTypeWord();
   initHeartWall();
+  audioAutoPlay('back-music');
 };
 
 function StartTypeWord() {
@@ -184,6 +186,22 @@ function getX(t) {
 
 function getY(t) {
   return 13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t);
+}
+
+function audioAutoPlay(id) {
+  var audio = document.getElementById(id),
+      play = function play() {
+    audio.play();
+    document.removeEventListener("touchstart", play, false);
+  };
+  audio.play();
+  document.addEventListener("WeixinJSBridgeReady", function () {
+    play();
+  }, false);
+  document.addEventListener('YixinJSBridgeReady', function () {
+    play();
+  }, false);
+  document.addEventListener("touchstart", play, false);
 }
 
 window.addEventListener('resize', initHeartWall);
